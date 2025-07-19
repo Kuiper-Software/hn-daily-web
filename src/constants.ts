@@ -1,0 +1,1 @@
+export const RSS_FEED_URL = 'https://hn-daily-podcast.s3.us-east-2.amazonaws.com/bootup.xml';
