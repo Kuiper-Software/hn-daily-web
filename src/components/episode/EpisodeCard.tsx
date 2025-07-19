@@ -75,7 +75,7 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
           component="img"
           sx={{
             width: 120,
-            height: 120,
+            height: 150,
             flexShrink: 0,
             objectFit: 'cover',
           }}
