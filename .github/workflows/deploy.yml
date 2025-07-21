@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -30,9 +30,7 @@ jobs:
           git config --global user.email "github-actions@github.com"
 
       - name: Deploy to GitHub Pages
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npx gh-pages -d dist \
-            --repo=https://x-access-token:${GH_TOKEN}@github.com/Kuiper-Software/hn-daily-web.git \
+            --repo=https://x-access-token:${{ secrets.GH_PAGES_DEPLOY_TOKEN }}@github.com/Kuiper-Software/hn-daily-web.git \
             --branch=gh-pages
