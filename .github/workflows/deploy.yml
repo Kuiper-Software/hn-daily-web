@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
@@ -24,8 +24,12 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Deploy to GitHub Pages
+      - name: Configure git identity
         run: |
-          npx gh-pages -d dist -b gh-pages -u "github-actions[bot] <github-actions@github.com>"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Deploy to GitHub Pages
+        run: npx gh-pages -d dist -b gh-pages
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
