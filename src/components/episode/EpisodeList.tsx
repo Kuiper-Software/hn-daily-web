@@ -49,10 +49,10 @@ const EpisodeList: React.FC<EpisodeListProps> = ({ episodes, isLoading }) => {
   }
 
   // Calculate item height (card height + padding)
-  const itemHeight = 160; // 120px image + 16px padding
+  const itemHeight = 170; // 120px image + 16px padding
 
   return (
-    <Box sx={{ height: 'calc(100vh - 200px)', width: '100%' }}>
+    <Box sx={{ height: 'calc(100vh - 420px)', width: '100%' }}>
       <AutoSizer>
         {({ height, width }) => (
           <List

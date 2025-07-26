@@ -34,7 +34,9 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
   const handlePlayEpisode = (e: React.MouseEvent) => {
     e.stopPropagation();
     setCurrentEpisode(episode);
-    play();
+    setTimeout(() => {
+      play();
+    }, 100);
   };
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
@@ -125,7 +127,7 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
               WebkitBoxOrient: 'vertical',
             }}
           >
-            {truncateText(episode.description, 150)}
+            {truncateText(episode.description, 140)}
           </Typography>
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

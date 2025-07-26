@@ -7,11 +7,16 @@ import {
   IconButton,
   LinearProgress,
   Avatar,
+  Slider,
+  Tooltip,
 } from '@mui/material';
 import {
   PlayArrow as PlayIcon,
   Pause as PauseIcon,
   ExpandLess as ExpandIcon,
+  VolumeUp as VolumeUpIcon,
+  VolumeDown as VolumeDownIcon,
+  VolumeMute as VolumeMuteIcon,
 } from '@mui/icons-material';
 import { useAudioStore } from '../../stores/audioStore';
 import { formatDuration } from '../../utils/timeUtils';
@@ -23,6 +28,7 @@ const MiniPlayer: React.FC = () => {
     playbackState,
     play,
     pause,
+    setVolume,
   } = useAudioStore();
 
   if (!currentEpisode) return null;
@@ -37,6 +43,21 @@ const MiniPlayer: React.FC = () => {
 
   const handleExpand = () => {
     navigate(`/episode/${currentEpisode.id}`);
+  };
+
+  const handleVolumeChange = (_: Event, newValue: number | number[]) => {
+    const volume = Array.isArray(newValue) ? newValue[0] : newValue;
+    setVolume(volume / 100); // Convert from 0-100 to 0-1
+  };
+
+  const handleVolumeMute = () => {
+    setVolume(playbackState.volume > 0 ? 0 : 1);
+  };
+
+  const getVolumeIcon = () => {
+    if (playbackState.volume === 0) return <VolumeMuteIcon />;
+    if (playbackState.volume < 0.5) return <VolumeDownIcon />;
+    return <VolumeUpIcon />;
   };
 
   const progress = playbackState.duration > 0 
@@ -142,6 +163,52 @@ const MiniPlayer: React.FC = () => {
           >
             {playbackState.isPlaying ? <PauseIcon /> : <PlayIcon />}
           </IconButton>
+          
+          {/* Volume Control */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              minWidth: 120,
+              mx: 1,
+            }}
+          >
+            <Tooltip title={`Volume: ${Math.round(playbackState.volume * 100)}%`}>
+              <IconButton
+                onClick={handleVolumeMute}
+                size="small"
+                color="primary"
+              >
+                {getVolumeIcon()}
+              </IconButton>
+            </Tooltip>
+            <Slider
+              value={playbackState.volume * 100}
+              onChange={handleVolumeChange}
+              aria-label="Volume"
+              min={0}
+              max={100}
+              size="small"
+              sx={{
+                ml: 1,
+                color: 'primary.main',
+                '& .MuiSlider-track': {
+                  border: 'none',
+                },
+                '& .MuiSlider-thumb': {
+                  width: 16,
+                  height: 16,
+                  backgroundColor: 'primary.main',
+                  '&:before': {
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.4)',
+                  },
+                  '&:hover, &.Mui-focusVisible, &.Mui-active': {
+                    boxShadow: 'none',
+                  },
+                },
+              }}
+            />
+          </Box>
           
           <IconButton
             onClick={handleExpand}
